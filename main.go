@@ -3,11 +3,24 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/gofiber/fiber"
+	"github.com/joho/godotenv"
+)
+var(
+	port string
 )
 
 func main() {
+	err := godotenv.Load(".env")
+    if err != nil {
+        fmt.Println(err)
+    }
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "3001"
+	}
 	// Fiber instance
 	app := fiber.New()
 
@@ -28,5 +41,5 @@ func main() {
 	})
 
 	// Start server
-	log.Fatal(app.Listen(3000))
+	log.Fatal(app.Listen(port))
 }
